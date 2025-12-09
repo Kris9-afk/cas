@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS STYLISH COLLECTIONS - Stock Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <video class="header-video" autoplay muted loop playsinline>
+            <source src="resources/Untitled video - Made with Clipchamp.mp4" type="video/mp4">
+            <!-- Video file loaded from resources folder -->
+        </video>
+        <h1>CAS STYLISH COLLECTIONS</h1>
+        <p>Stock Management</p>
+        <div class="header-nav">
+            <a href="admin.html" class="header-btn admin-btn" style="text-decoration: none;">
+                <span class="btn-icon">🔐</span>
+                <span class="btn-text">ADMIN</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <div class="form-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px;">
+                <h2 style="color: white; margin-top: 0;">📦 Add New Item</h2>
+                <form id="add-item-form">
+                    <input type="text" id="item-name" placeholder="Item Name" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;" required>
+                    <select id="item-category" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;" required>
+                        <option value="">Select Category</option>
+                        <option value="Women">Women</option>
+                        <option value="Men">Men</option>
+                        <option value="Children">Children</option>
+                        <option value="Unisex">Unisex</option>
+                    </select>
+                    <input type="number" id="item-quantity" placeholder="Quantity" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;" required min="0">
+                    <input type="number" id="item-price" placeholder="Price (GHS)" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;" required min="0" step="0.01">
+                    <button type="submit" style="background: white; color: #667eea; font-weight: 600; padding: 0.7rem; border: none; border-radius: 6px; width: 100%; cursor: pointer; font-size: 0.9rem;">Add to Stock</button>
+                </form>
+            </div>
+
+            <div class="form-container" style="margin-top: 2rem; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 1.5rem; border-radius: 12px;">
+                <h2 style="color: white; margin-top: 0;">💰 Sales Made Centre</h2>
+                <form id="sales-form">
+                    <select id="sales-category" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;">
+                        <option value="">Select Category</option>
+                        <option value="Women">Women</option>
+                        <option value="Men">Men</option>
+                        <option value="Children">Children</option>
+                        <option value="Unisex">Unisex</option>
+                    </select>
+                    <input type="text" id="sales-item" placeholder="Type Item Name Here" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;">
+                    <input type="number" id="sales-quantity" placeholder="Quantity Sold" required min="1" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;">
+                    <input type="number" id="sales-amount" placeholder="Amount (GHS)" required min="0" step="0.01" style="background: white; color: #333; padding: 0.6rem; border: none; border-radius: 6px; margin-bottom: 0.5rem; width: 100%; box-sizing: border-box; font-size: 0.9rem;">
+                    <button type="submit" style="background: white; color: #f5576c; font-weight: 600; padding: 0.7rem; border: none; border-radius: 6px; width: 100%; cursor: pointer; font-size: 0.9rem;">Record Sale</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Current Stock Section -->
+        <div class="stock-list-container" style="margin-top: 2rem;">
+            <h2>Current Stock</h2>
+            <table id="stock-table" style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <th style="padding: 1rem; text-align: left;">Name</th>
+                        <th style="padding: 1rem; text-align: left;">Category</th>
+                        <th style="padding: 1rem; text-align: center;">Quantity</th>
+                        <th style="padding: 1rem; text-align: right;">Price</th>
+                        <th style="padding: 1rem; text-align: right;">Total Value</th>
+                        <th style="padding: 1rem; text-align: center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="stock-list">
+                    <!-- Stock items will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Daily Statistics Cards - Compact Version at Bottom -->
+        <div class="daily-stats-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2rem; padding: 0 1rem;">
+            <div id="today-purchases-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.8rem; border-radius: 12px; box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3); cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.3)'" onclick="showTodaysSalesModal()">
+                <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.95rem;">Today's Purchases</p>
+                <p id="today-purchases" style="margin: 0; font-size: 2.5rem; font-weight: 700;">0</p>
+            </div>
+            <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 1.8rem; border-radius: 12px; box-shadow: 0 8px 20px rgba(67, 233, 123, 0.3);">
+                <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.95rem;">Revenue Today</p>
+                <p id="today-revenue" style="margin: 0; font-size: 2.5rem; font-weight: 700;">GHS 0.00</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Today's Sales Modal -->
+    <div id="sales-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; display: none;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 800px; box-shadow: 0 10px 50px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
+                <h2 style="margin: 0; color: #667eea;">📊 Today's Purchases</h2>
+                <button id="close-sales-modal" type="button" onclick="closeTodaysSalesModal(); return false;" style="background: none; border: none; font-size: 2rem; color: #999; cursor: pointer; padding: 0; line-height: 1; min-width: 40px; min-height: 40px; display: flex; align-items: center; justify-content: center;">×</button>
+            </div>
+            <table id="sales-list-table" style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                <thead>
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Item</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Category</th>
+                        <th style="padding: 1rem; text-align: center; border: 1px solid #ddd;">Qty</th>
+                        <th style="padding: 1rem; text-align: right; border: 1px solid #ddd;">Amount</th>
+                        <th style="padding: 1rem; text-align: center; border: 1px solid #ddd;">Time</th>
+                        <th style="padding: 1rem; text-align: center; border: 1px solid #ddd;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="sales-list-body">
+                </tbody>
+            </table>
+            <p id="no-sales-text" style="text-align: center; color: #999; padding: 2rem;">No sales recorded today</p>
+        </div>
+    </div>
+
+    <!-- Small Profile at Bottom Right with Hidden Passcode Button -->
+    <div style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; display: flex; align-items: center; gap: 0.3rem;">
+        <!-- Admin Passcode Change Button - Hidden/Minimal -->
+        <button onclick="openPasscodeChangeModal()" title="Change Admin Passcode" style="background: transparent; border: none; font-size: 0.9rem; cursor: pointer; padding: 0.2rem; opacity: 0.5; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1)'" onmouseout="this.style.opacity='0.5'; this.style.transform='scale(1)'">
+            🔑
+        </button>
+        
+        <!-- Profile Card -->
+        <div style="background: white; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 0.8rem; border: 2px solid #667eea; display: flex; align-items: center; gap: 0.8rem; transition: all 0.3s ease;">
+            <img src="resources/Kris.JPG" alt="Developer" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #667eea;">
+            <div style="font-size: 0.75rem;">
+                <div style="font-weight: 600; color: #333; margin-bottom: 0.2rem;">Kris Amoateng</div>
+                <div style="color: #667eea; font-weight: 500;">Developer</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Passcode Change Modal -->
+    <div id="passcode-change-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; display: none;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 10px 50px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #f5576c; padding-bottom: 1rem;">
+                <h2 style="margin: 0; color: #f5576c;">🔐 Change Admin Passcode</h2>
+                <button onclick="closePasscodeChangeModal(); return false;" style="background: none; border: none; font-size: 2rem; color: #999; cursor: pointer; padding: 0; line-height: 1; min-width: 40px; min-height: 40px; display: flex; align-items: center; justify-content: center;">×</button>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Current Passcode</label>
+                <input type="password" id="current-passcode" placeholder="Enter current passcode" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">New Passcode</label>
+                <input type="password" id="new-passcode" placeholder="Enter new passcode" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Confirm New Passcode</label>
+                <input type="password" id="confirm-passcode" placeholder="Confirm new passcode" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem;">
+            </div>
+            <div id="passcode-error" style="color: #f5576c; margin-bottom: 1rem; font-size: 0.9rem; display: none;"></div>
+            <button onclick="updateAdminPasscode()" style="width: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem;">Update Passcode</button>
+        </div>
+    </div>
+
+    <script src="api-service.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

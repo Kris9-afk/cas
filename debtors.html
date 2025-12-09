@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS STYLISH COLLECTIONS - Debtors</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <video class="header-video" autoplay muted loop playsinline>
+            <source src="resources/Untitled video - Made with Clipchamp.mp4" type="video/mp4">
+            <!-- Video file loaded from resources folder -->
+        </video>
+        <h1>CAS STYLISH COLLECTIONS</h1>
+        <p>Debtors Management</p>
+        <div class="header-nav">
+            <a href="admin.html" class="header-btn admin-btn" style="text-decoration: none;">
+                <span class="btn-icon">🔐</span>
+                <span class="btn-text">ADMIN</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="debtors-main">
+        <div class="debtors-form-container">
+            <h2>Add New Debtor</h2>
+            <form id="add-debtor-form">
+                <input type="text" id="debtor-name" placeholder="Debtor Name" required>
+                <input type="tel" id="debtor-phone" placeholder="Phone Number" required>
+                <select id="debtor-category" required style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 1rem; font-size: 0.95rem;">
+                    <option value="">Select Item Type</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Children">Children</option>
+                    <option value="Unisex">Unisex</option>
+                </select>
+                <input type="text" id="debtor-item" placeholder="Item Name" required>
+                <input type="number" id="debtor-quantity" placeholder="Quantity" required min="1">
+                <input type="number" id="debtor-price" placeholder="Price per Item (GHS)" required min="0" step="0.01">
+                <button type="submit">Add Debtor</button>
+            </form>
+        </div>
+
+        <div class="debtors-list-container">
+            <div class="debtors-header">
+                <h2>Debtors List</h2>
+                <div class="debtors-summary">
+                    <div class="summary-item">
+                        <span>Total Debtors:</span>
+                        <strong id="total-debtors">0</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Debt:</span>
+                        <strong id="total-debt">GHS 0.00</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <input type="text" id="search-debtor" placeholder="Search by name or phone...">
+            </div>
+
+            <table id="debtors-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Item Type</th>
+                        <th>Total Cost</th>
+                        <th>Amount Paid</th>
+                        <th>Balance</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="debtors-list">
+                    <!-- Debtors will be dynamically inserted here -->
+                </tbody>
+            </table>
+
+            <!-- Payment Modal -->
+            <div id="payment-modal" class="modal" style="display: none;">
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 id="payment-modal-title">Payment</h2>
+                        <button class="modal-close" id="payment-modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body" style="padding: 2rem;">
+                        <p id="payment-debtor-info" style="margin-bottom: 1rem; font-size: 0.95rem;"></p>
+                        
+                        <div style="background: #f9f9f9; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <p style="margin: 0.3rem 0;"><strong>Outstanding Balance:</strong> <span id="payment-balance" style="color: #f5576c; font-weight: 600;">GHS 0.00</span></p>
+                        </div>
+
+                        <input type="number" id="payment-amount" placeholder="Enter payment amount (GHS)" min="0" step="0.01" style="width: 100%; padding: 0.8rem; margin-bottom: 1.5rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        
+                        <div style="display: flex; gap: 1.5rem;">
+                            <button id="payment-part-btn" style="flex: 1; padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3); transition: all 0.3s ease;">
+                                Part Payment
+                            </button>
+                            <button id="payment-full-btn" style="flex: 1; padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3); transition: all 0.3s ease;">
+                                Mark as Paid
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="debtors.js"></script>
+</body>
+</html>

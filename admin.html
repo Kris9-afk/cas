@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS STYLISH COLLECTIONS - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" class="modal" style="display: block;">
+        <div class="modal-content" style="max-width: 400px; margin-top: 10%;">
+            <div class="modal-header">
+                <h2>Administrator Login</h2>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 1rem;">
+                    <input type="password" id="admin-code-input" placeholder="Enter Admin Code" style="width: 100%; padding: 0.8rem; font-size: 1rem; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 1rem;">
+                    <button id="admin-login-submit" style="width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">LOGIN</button>
+                    <p id="admin-error" style="color: #f5576c; margin-top: 0.5rem; font-size: 0.9rem; display: none;">Incorrect code. Please try again.</p>
+                    <a href="index.html" style="display: block; text-align: center; margin-top: 1rem; color: #667eea; text-decoration: none;">Back to Main Page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Content (Hidden until login) - BLANK PAGE READY FOR NEW DESIGN -->
+    <div id="admin-content" style="display: none;">
+        <!-- Header section -->
+        <header>
+            <video class="header-video" autoplay muted loop playsinline>
+                <source src="resources/Untitled video - Made with Clipchamp.mp4" type="video/mp4">
+            </video>
+            <h1>CAS STYLISH COLLECTIONS</h1>
+            <p>Administrator Panel</p>
+            <div class="header-nav">
+                <a href="index.html" class="header-btn main-page-btn" style="text-decoration: none;">
+                    <span class="btn-icon">🏠</span>
+                    <span class="btn-text">MAIN PAGE</span>
+                </a>
+                <button id="admin-logout-btn" class="header-btn logout-btn">
+                    <span class="btn-icon">🚪</span>
+                    <span class="btn-text">LOGOUT</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main content area - BLANK SLATE READY FOR NEW DESIGN -->
+        <main style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%); min-height: calc(100vh - 200px);">
+            
+            <!-- HEADER SECTION -->
+            <div style="margin-bottom: 3rem; text-align: center;">
+                <h2 style="font-size: 2rem; color: #333; margin: 0 0 0.5rem 0;">📊 Dashboard</h2>
+                <p style="color: #999; margin: 0;">Real-time sales and inventory tracking</p>
+            </div>
+
+            <!-- STAT CARDS ROW -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.8rem; border-radius: 12px; box-shadow: 0 8px 20px rgba(245, 87, 108, 0.3);">
+                    <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.95rem;">Current Stock Value</p>
+                    <p id="total-revenue" style="margin: 0; font-size: 2.5rem; font-weight: 700;">GHS 0.00</p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.8;">total stock worth</p>
+                </div>
+            </div>
+
+            <!-- DELETED SALES SECTION -->
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #f5576c; padding-bottom: 1rem;">
+                    <h3 style="margin: 0; color: #333; font-size: 1.3rem;">🗑️ Deleted Sales</h3>
+                    <button id="clear-deleted-sales-btn" style="background: #f5576c; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease;">
+                        Clear All
+                    </button>
+                </div>
+                <div id="deleted-sales-list" style="max-height: 350px; overflow-y: auto;">
+                    <p style="color: #999; text-align: center; padding: 2rem;">No deleted sales yet</p>
+                </div>
+            </div>
+
+            <!-- MANAGE DEBTORS LINK SECTION -->
+            <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(245, 87, 108, 0.3); text-align: center; color: white; margin-bottom: 2rem;">
+                <h3 style="margin: 0 0 0.8rem 0; font-size: 1.5rem;">💳 Manage Credit Sales</h3>
+                <p style="margin: 0 0 1.5rem 0; opacity: 0.95; font-size: 1rem; line-height: 1.5;">Track debtors, record payments, and manage credit sales</p>
+                <a href="debtors.html" style="text-decoration: none; background: white; color: #f5576c; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; display: inline-block; transition: all 0.3s ease; border: 2px solid white; cursor: pointer; font-size: 1rem;">
+                    🔗 GO TO DEBTORS PAGE
+                </a>
+            </div>
+
+            <!-- ANALYTICS SUMMARY SECTION -->
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); margin-bottom: 2rem;">
+                <div style="margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
+                    <h3 style="margin: 0; color: #333; font-size: 1.3rem;">📈 Analytics Summary</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(67, 233, 123, 0.2);">
+                        <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Total Revenue</p>
+                        <p id="analytics-total-revenue" style="margin: 0; font-size: 2rem; font-weight: 700;">GHS 0.00</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);">
+                        <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Total Sales</p>
+                        <p id="analytics-total-sales" style="margin: 0; font-size: 2rem; font-weight: 700;">0</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.2);">
+                        <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Outstanding Debt</p>
+                        <p id="analytics-total-debt" style="margin: 0; font-size: 2rem; font-weight: 700;">GHS 0.00</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(250, 112, 154, 0.2);">
+                        <p style="margin: 0 0 0.5rem 0; opacity: 0.9; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Deleted Records</p>
+                        <p id="analytics-total-deleted" style="margin: 0; font-size: 2rem; font-weight: 700;">0</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <a href="analytics.html" style="text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; display: inline-block; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2); font-size: 0.95rem;">
+                        📊 View Detailed Analytics
+                    </a>
+                </div>
+            </div>
+
+            <!-- QUICK LINKS FOOTER -->
+            <div style="text-align: center;">
+                <a href="index.html" style="text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.2rem 2rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: inline-block; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);">
+                    🏠 Back to Main Page
+                </a>
+            </div>
+
+        </main>
+
+        <!-- Today's Purchases Modal -->
+        <div id="admin-sales-modal" class="modal" style="display: none;">
+            <div class="modal-content" style="max-width: 800px;">
+                <div class="modal-header">
+                    <h2>Today's Purchases</h2>
+                    <button class="modal-close" id="admin-sales-modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <table id="admin-sales-modal-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f0f0f0;">
+                                <th style="padding: 0.8rem; text-align: left; border-bottom: 2px solid #ddd;">Item</th>
+                                <th style="padding: 0.8rem; text-align: left; border-bottom: 2px solid #ddd;">Category</th>
+                                <th style="padding: 0.8rem; text-align: center; border-bottom: 2px solid #ddd;">Qty</th>
+                                <th style="padding: 0.8rem; text-align: right; border-bottom: 2px solid #ddd;">Unit Price</th>
+                                <th style="padding: 0.8rem; text-align: right; border-bottom: 2px solid #ddd;">Total</th>
+                                <th style="padding: 0.8rem; text-align: center; border-bottom: 2px solid #ddd;">Time</th>
+                                <th style="padding: 0.8rem; text-align: center; border-bottom: 2px solid #ddd;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-sales-modal-list">
+                            <!-- Today's sales will be listed here -->
+                        </tbody>
+                    </table>
+                    <p id="admin-no-sales-msg" style="text-align: center; color: #999; padding: 2rem;">No sales recorded today</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

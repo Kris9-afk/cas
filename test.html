@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head><title>Test localStorage</title></head>
+<body>
+<h1>localStorage Test</h1>
+<button onclick="testSave()">Save Test Data</button>
+<button onclick="testRead()">Read Test Data</button>
+<pre id="output"></pre>
+<script>
+function testSave() {
+    const testData = [{name: 'Test Item', deleted: new Date().toLocaleString()}];
+    localStorage.setItem('deletedSales', JSON.stringify(testData));
+    document.getElementById('output').textContent = 'Saved: ' + JSON.stringify(testData, null, 2);
+}
+function testRead() {
+    const data = localStorage.getItem('deletedSales');
+    document.getElementById('output').textContent = 'Read: ' + data;
+}
+</script>
+</body>
+</html>

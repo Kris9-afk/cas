@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .analytics-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .analytics-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .analytics-header h1 {
+            margin: 0 0 0.5rem 0;
+            color: #667eea;
+        }
+
+        .analytics-header p {
+            margin: 0;
+            color: #666;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-left: 4px solid;
+        }
+
+        .summary-card.revenue {
+            border-left-color: #43e97b;
+        }
+
+        .summary-card.sales {
+            border-left-color: #667eea;
+        }
+
+        .summary-card.deleted {
+            border-left-color: #f5576c;
+        }
+
+        .summary-card.debt {
+            border-left-color: #f093fb;
+        }
+
+        .summary-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .chart-container h3 {
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        .back-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .table-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+
+        .table-container h3 {
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f5f5f5;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge.positive {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-badge.negative {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="analytics-container">
+        <button class="back-btn" onclick="window.location.href='admin.html'">← Back to Admin Hub</button>
+
+        <div class="analytics-header">
+            <h1>📊 Analytics Dashboard</h1>
+            <p>Comprehensive sales and inventory analytics</p>
+        </div>
+
+        <div id="error-container"></div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card revenue">
+                <h3>Total Revenue</h3>
+                <p class="value" id="total-revenue">GHS 0.00</p>
+            </div>
+            <div class="summary-card sales">
+                <h3>Total Sales</h3>
+                <p class="value" id="total-sales">0</p>
+            </div>
+            <div class="summary-card deleted">
+                <h3>Deleted Records</h3>
+                <p class="value" id="total-deleted">0</p>
+            </div>
+            <div class="summary-card debt">
+                <h3>Outstanding Debt</h3>
+                <p class="value" id="total-debt">GHS 0.00</p>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Revenue Over Time</h3>
+                <div class="chart-wrapper">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Sales Distribution by Category</h3>
+                <div class="chart-wrapper">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Table -->
+        <div class="table-container">
+            <h3>Daily Analytics Summary</h3>
+            <table id="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total Sales</th>
+                        <th>Revenue</th>
+                        <th>Items Sold</th>
+                        <th>Active Debtors</th>
+                        <th>Total Debt</th>
+                    </tr>
+                </thead>
+                <tbody id="analytics-body">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #999;">Loading analytics...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="api-service.js"></script>
+    <script>
+        let revenueChart, categoryChart;
+
+        async function loadAnalytics() {
+            try {
+                const summary = await apiService.getAnalyticsSummary();
+                if (!summary) {
+                    showError('Unable to connect to backend. Please ensure the server is running.');
+                    return;
+                }
+
+                // Update summary cards
+                document.getElementById('total-revenue').textContent = `GHS ${summary.totalRevenue.toFixed(2)}`;
+                document.getElementById('total-sales').textContent = summary.totalSales;
+                document.getElementById('total-deleted').textContent = summary.totalDeletedSales;
+                document.getElementById('total-debt').textContent = `GHS ${summary.totalDebt.toFixed(2)}`;
+
+                // Load detailed analytics
+                const analytics = await apiService.getAnalytics();
+                if (analytics && analytics.length > 0) {
+                    renderAnalyticsTable(analytics);
+                    renderCharts(analytics);
+                }
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+                showError('Error loading analytics. Please try again.');
+            }
+        }
+
+        function renderAnalyticsTable(analytics) {
+            const tbody = document.getElementById('analytics-body');
+            tbody.innerHTML = analytics.slice(0, 30).map(record => `
+                <tr>
+                    <td>${record.date}</td>
+                    <td>${record.totalSales}</td>
+                    <td>GHS ${record.totalRevenue.toFixed(2)}</td>
+                    <td>${record.totalItems}</td>
+                    <td>${record.totalDebtors}</td>
+                    <td>GHS ${record.totalDebt.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderCharts(analytics) {
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+
+            // Revenue chart
+            if (revenueChart) revenueChart.destroy();
+            revenueChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: analytics.slice(-15).map(a => a.date),
+                    datasets: [{
+                        label: 'Daily Revenue (GHS)',
+                        data: analytics.slice(-15).map(a => a.totalRevenue),
+                        borderColor: '#43e97b',
+                        backgroundColor: 'rgba(67, 233, 123, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#43e97b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: v => 'GHS ' + v }
+                        }
+                    }
+                }
+            });
+
+            // Category chart
+            if (categoryChart) categoryChart.destroy();
+            categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Women', 'Men', 'Children', 'Unisex'],
+                    datasets: [{
+                        data: [30, 25, 20, 25],
+                        backgroundColor: ['#667eea', '#764ba2', '#43e97b', '#f5576c'],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function showError(message) {
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        // Load analytics on page load
+        loadAnalytics();
+    </script>
+</body>
+</html>
